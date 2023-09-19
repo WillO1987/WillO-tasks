@@ -1,21 +1,8 @@
 
-# cypher = []
-# alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-input = input("Enter a password") # user enters password and is stored
-# for i in range (len(input)):#loops round for each char in string
-#     cypher.append(input[i]) # puts each char in its own position in array
-# #endfor
-# shift = 3
-# #for i in cypher[i]:
-# for char in cypher[i]:
-#     if char.isalpha():
-#         char_shift = chr((ord('a') + shift % 26) + ord('a'))
-#         cypher += char_shift
-# print(cypher)
+input = input("Enter a password")
+inputshift = 3
 
-# The Encryption Function
-print()
-def cipher_encrypt(input, shift):
+def cipherencrypt(input, shift):# The Encryption Function
 
     encrypted = ""
 
@@ -43,16 +30,19 @@ def cipher_encrypt(input, shift):
 
             encrypted += i_new
 
-        elif c.isdigit():
+        elif i.isdigit():
 
-            # if it's a number,shift its actual value 
-            i_new = (int(i) + key) % 10
+            # if it's a number shift
+            i_new = (int(i) + shift) % 10
 
             encrypted += str(i_new)
 
         else:
 
-            # if its neither alphabetical nor a number, just leave it like that
+            # if its not a number or in the alphabet it stays the same 
             encrypted += i
-
     return encrypted
+#enddef
+
+decoded = cipherencrypt(input,int(inputshift))
+print(decoded)
