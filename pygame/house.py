@@ -19,10 +19,11 @@ done = False
  
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
-x_val = 50
-y_val = 50
+x_val = 0
+y_val = 200
 x_offset = 1
 pi= 3.141592652
+counter = 0
 
  
 # -------- Main Program Loop -----------
@@ -38,14 +39,34 @@ while not done:
  
     # First, clear the screen to white. Don't put other drawing commands
     # above this, or they will be erased with this command.
-    screen.fill(BLUE)
-    pygame.draw.rect(screen, GREEN, [0, 700, 500, 300], 0)
-    #draw stuff here:
-    x_val = x_val + x_offset
-    if x_val > size[0]:
-        x_val = 0
+    def night():
+        screen.fill(BLACK)
         
+    
+    def day():
+        screen.fill(BLUE)
+    #endfunction
+    screen.fill(BLUE)
+    
+    
+    #draw stuff here:
+    x_val += 3
+    y_val = 24/6125 * x_val ** 2 + -2.798 *x_val + 500
+
+
+    #x_val = x_val + x_offset
+    # if x_val > size[0]:
+    #     x_val = 0
+    #     counter = 1
+    if counter > 0:
+        night()
+        counter = 0
+    else:
+        day()
+        
+    
     #endif
+    pygame.draw.rect(screen, GREEN, [0, 300, 700, 200], 0)
     pygame.draw.rect(screen, RED, [250, 250, 200, 150], 0)
     pygame.draw.circle(screen, YELLOW, [x_val, y_val] , 20)
     pygame.draw.polygon(screen,BLACK, [[250, 250] , [355,150] , [450,250]])
