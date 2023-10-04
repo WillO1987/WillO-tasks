@@ -25,7 +25,7 @@ x_offset = 3
 y_offset = 3
 pi= 3.141592652
 counter = 0
-
+r = 20
  
 # -------- Main Program Loop -----------
 while not done:
@@ -62,7 +62,7 @@ while not done:
     #     x_offset = x_offset * -1
     #     y_offset = y_offset * -1
     
-    pygame.draw.circle(screen, YELLOW, [x_val, y_val] , 20)
+    pygame.draw.circle(screen, YELLOW, [x_val, y_val] , 10)
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
  
