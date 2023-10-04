@@ -1,5 +1,6 @@
 import pygame
 import math
+import random
 # Initialize the game engine
 pygame.init()
 
@@ -26,6 +27,8 @@ y_offset = 3
 pi= 3.141592652
 counter = 0
 r = 20
+global y
+y = BLUE
  
 # -------- Main Program Loop -----------
 while not done:
@@ -41,22 +44,34 @@ while not done:
     # First, clear the screen to white. Don't put other drawing commands
     # above this, or they will be erased with this command.
    
+    def screenfill():
+        he = random.randint(1,3)
+        if he == 1:
+            y = RED
+        elif he == 2:
+            y = BLACK
+        else:
+            y = WHITE
+        screen.fill(y)
     
-    screen.fill(BLUE)
+    # screen.fill(y) # remove to get trail effect 
     
     
     #draw stuff here:
-
     y_val = y_val + y_offset
     x_val = x_val + x_offset
     if y_val < 0:
         y_offset = y_offset * -1
+        screenfill()
     elif y_val > 500:
         y_offset = y_offset * -1
+        screenfill()
     elif x_val < 0:
         x_offset = x_offset * -1
+        screenfill()
     elif x_val > 700:
         x_offset = x_offset * -1
+        screenfill()
         
     # if x_val >= size[0] or y_val >= size[1]:
     #     x_offset = x_offset * -1
