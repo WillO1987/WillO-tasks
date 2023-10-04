@@ -21,7 +21,8 @@ done = False
 clock = pygame.time.Clock()
 x_val = 0
 y_val = 200
-x_offset = 1
+x_offset = 3
+y_offset = 3
 pi= 3.141592652
 counter = 0
 
@@ -46,11 +47,21 @@ while not done:
     
     #draw stuff here:
 
-    y_val = y_val+ x_offset
+    y_val = y_val + y_offset
     x_val = x_val + x_offset
-    if x_val > size[0] & y_val > size[1]:
-        x_offset = -1
-
+    if y_val < 0:
+        y_offset = y_offset * -1
+    elif y_val > 500:
+        y_offset = y_offset * -1
+    elif x_val < 0:
+        x_offset = x_offset * -1
+    elif x_val > 700:
+        x_offset = x_offset * -1
+        
+    # if x_val >= size[0] or y_val >= size[1]:
+    #     x_offset = x_offset * -1
+    #     y_offset = y_offset * -1
+    
     pygame.draw.circle(screen, YELLOW, [x_val, y_val] , 20)
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
