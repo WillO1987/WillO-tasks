@@ -12,19 +12,29 @@ while(gamerunning == True):
     x = int(input())
 
     y = int(input())
+    if(x == "X" or y == "X"):  
 
-    grid[x][y] = 0 
+        gamerunning == False 
+
+    grid[x][y] = '0' 
         
     #     for u in num:
     #         print(x, end = "")
     #     print()
 
-    print(grid)
 
-    if(x == "X" or y == "x"):  
-
-        gamerunning == False 
-
+    # for i in range(0,6):
+    #     for x in range(0,6):
+    #         print(grid[i][x])
     
+    #     print()
+
+    for i in range(0,6):
+        print(grid[i])
+    
+
+    grid[x][y] = 'x' 
+    
+#endwhile
 
  
