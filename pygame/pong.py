@@ -100,14 +100,10 @@ while not done:
         lives -= 1    
     
     if lives == 0:
-        rect_x = 380
-        rect_y = 230
-        x_change=0
-        y_change=0
         end = "GAME OVER"
         endmessage = font.render(end, True, WHITE)
         screen.blit(endmessage, [271,103])
-        pygame.display.flip()
+        pygame.display.flip() # clears the screen 
         time.sleep(1.5)
         done = True
     
