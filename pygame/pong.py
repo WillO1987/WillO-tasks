@@ -30,7 +30,7 @@ y_offset = 5
 pi= 3.141592652
 counter = 0
 screenfill = RED
-randomint = random.randint(1,4)
+
 y_val_2 = 200
 x_val_2 = 5
 lives = 5
@@ -38,7 +38,19 @@ text_font = pygame.font.SysFont(None, 30)
 font = pygame.font.SysFont(None, 30)
 end = ""
 
- 
+def randombackground(x): 
+    if(x == 1):
+        screenfill = RED
+        return screenfill
+    elif(x == 2):
+        screenfill = GREEN
+        return screenfill
+    elif(x == 3):
+        screenfill = BLACK
+        return screenfill
+    else: 
+        screenfill = YELLOW
+        return screenfill
 # -------- Main Program Loop -----------
 while not done:
     # --- Main event loop
@@ -58,8 +70,8 @@ while not done:
     
     
     #draw stuff here:
-    lives_count = font.render("Life Count: " + str(lives), True, BLACK)
-    endmessage = font.render(end, True, BLACK)
+    lives_count = font.render("Life Count: " + str(lives), True, WHITE)
+    endmessage = font.render(end, True, WHITE)
     screen.blit(endmessage, [271,103])
     screen.blit(lives_count, [271,130])
 
@@ -82,21 +94,23 @@ while not done:
     elif x_val > 695:
         x_offset = x_offset*-1 
     
-    elif x_val < 20 and y_val >= y_val_2 and y_val <= y_val_2 + 100:
+    elif x_val < 20 and y_val >= y_val_2 and y_val <= y_val_2 + 100:#collisionwith paddel
         x_offset = x_offset*-1 
+        randomint = random.randint(1,4)
+        screenfill = randombackground(randomint)
         
     if x_val < 0 and y_val >= y_val_2+100:
-       # screenfill = RED
+       
         x_val = 350
         y_val = 250
-        #screenfill = BLUE
+        
         lives -= 1
     
     elif x_val < 0 and y_val <= y_val_2:
-       # screenfill = RED
+       
         x_val = 350
         y_val = 250
-        #screenfill = BLUE
+        
         lives -= 1    
     
     if lives == 0:
