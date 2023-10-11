@@ -44,13 +44,13 @@ def randombackground(x):
         screenfill = RED
         return screenfill
     elif(x == 2):
-        screenfill = GREEN
+        screenfill = PURPLE
         return screenfill
     elif(x == 3):
         screenfill = BLACK
         return screenfill
     else: 
-        screenfill = YELLOW
+        screenfill = BLUE
         return screenfill
 # -------- Main Program Loop -----------
 while not done:
