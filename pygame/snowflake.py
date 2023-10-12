@@ -1,6 +1,7 @@
 import pygame
 import pygame
 import math
+import random
 # Initialize the game engine
 pygame.init()
 
@@ -17,9 +18,57 @@ pygame.display.set_caption("Wills test:")
 
 # Loop until the user clicks the close button.
 done = False
+
  
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
+
+#classes
+class snow(pygame.sprite.Sprite):
+    #construcor function
+        def __init__(self, s_width, s_length):
+            super().__init__()
+            self.width = s_width
+            self.length = s_length
+            # self.Y_position = y
+            # self.X_postion = x
+            self.speed = random.randrange(1,3)
+            self.image = pygame.Surface([s_width, s_length])
+            self.image.fill(WHITE)
+            self.rect = self.image.get_rect()
+            self.rect.x = random.randrange(0,700)
+            self.rect.y = random.randrange(0, 500)
+            self.horizontalspeed = random.randrange(-2,2)
+           
+        #ednconstructor function
+
+        def update(self):
+            if self.rect.y > 500 :
+                self.rect.y = -50
+                self.speed = random.randrange(1,3)
+                self.rect.x = self.rect.x + self.horizontalspeed
+
+            else:
+                self.rect.y = self.rect.y + self.speed
+            #endif
+            if self.rect.y > 0:
+                self.rect.x = self.rect.x + self.horizontalspeed
+            if self.rect.x < 0 and self.rect.y > 500:
+                self.rect.x = random.randrange(0,700)
+            elif self.rect.x > 700 and self.rect.y > 500:
+                self.rect.x = random.randrange(0,700)
+        
+#endclass
+
+#global variables
+snow_list = pygame.sprite.Group()
+number_of_flakes = 600
+for i in range(0,number_of_flakes):
+    sizeee = random.randrange(2,5)
+    flake = snow(sizeee,sizeee)
+    snow_list.add(flake)
+#next i 
+
 x_val = 0
 y_val = 200
 x_offset = 1
@@ -43,13 +92,11 @@ while not done:
 
     screen.fill(BLUE)
     
-    
+    snow_list.update()
     #draw stuff here:
-    x_val += 3
-    y_val = 24/6125 * x_val ** 2 + -2.798 *x_val + 500
-    
-
-    pygame.draw.rect(screen, WHITE, [0, 300, 700, 200], 0)
+   
+    snow_list.draw(screen)
+   # pygame.draw.rect(screen, WHITE, [0, 300, 700, 200], 0)
 
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
