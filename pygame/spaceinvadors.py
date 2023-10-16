@@ -34,28 +34,31 @@ done = False
 clock = pygame.time.Clock()
 #classes go here
 class spaceship(pygame.sprite.Sprite):
-    def __init__(self, s_width, s_length, intial_X ):
+    def __init__(self, s_width, s_length, initial_x):
         super().__init__()
         self.x_val2 = x_val2
         self.width = s_width
         self.height = s_length
-        self.speed = random.randrange(1,3)
         self.image = pygame.Surface([self.width, self.height])
-        self.image.fill(WHITE), 
+        self.image.fill(BLACK), 
         self.rect = self.image.get_rect()
-        self.rect.x = intial_X
+        self.rect.x = initial_x
         self.rect.y = 465
-        self.horizontalspeed = 3
+    
+
     def update(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
-            self.x_val2 -= 5
+            self.rect.x -= 4
         if keys[pygame.K_RIGHT]:
-            self.x_val2 += 5
+            self.rect.x += 4
+
         if self.rect.left < 0:
             self.rect.left = 0
         if self.rect.right > 800:
             self.rect.right = 800
+
+        
 
 class Invador(pygame.sprite.Sprite):
     def __init__(self, I_width, I_height ):
