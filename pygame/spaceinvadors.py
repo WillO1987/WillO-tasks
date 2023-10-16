@@ -34,16 +34,16 @@ done = False
 clock = pygame.time.Clock()
 #classes go here
 class spaceship(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, s_width, s_length, intial_X ):
         super().__init__()
         self.x_val2 = x_val2
-        self.width = 40
-        self.height = 30
+        self.width = s_width
+        self.height = s_length
         self.speed = random.randrange(1,3)
         self.image = pygame.Surface([self.width, self.height])
         self.image.fill(WHITE), 
         self.rect = self.image.get_rect()
-        self.rect.x = x_val2
+        self.rect.x = intial_X
         self.rect.y = 465
         self.horizontalspeed = 3
     def update(self):
@@ -52,6 +52,10 @@ class spaceship(pygame.sprite.Sprite):
             self.x_val2 -= 5
         if keys[pygame.K_RIGHT]:
             self.x_val2 += 5
+        if self.rect.left < 0:
+            self.rect.left = 0
+        if self.rect.right > 800:
+            self.rect.right = 800
 
 class Invador(pygame.sprite.Sprite):
     def __init__(self, I_width, I_height ):
@@ -71,6 +75,8 @@ class Invador(pygame.sprite.Sprite):
             self.rect.y = self.rect.y - self.horizontalspeed
         if self.rect.y > screen_y:
             self.rect.y = -50
+       
+
 
 #global variables
 x_val2 = 350
@@ -88,7 +94,11 @@ for i in range(0,Invador_Num):
     invador_sprites.add(enemy)
     all_sprites.add(enemy)
 #next i 
-
+for i in range(1):
+    player = spaceship(40 , 30 , x_val2)
+    spaceship_sprite.add(player)
+    all_sprites.add(player)
+#endfor
 x_val = 0
 y_val = 200
 x_offset = 1
@@ -104,26 +114,27 @@ while not done:
             done = True # Flag that we are done so we exit this loop
  
     # --- Game logic should go here
- 
+    all_sprites.update()
+    spaceship_sprite.update()
+    #invador_sprites.update()
     # --- Drawing code should go here
  
     # First, clear the screen to white. Don't put other drawing commands
     # above this, or they will be erased with this command.
-    player = spaceship()
-    all_sprites.add(player)
+    # player = spaceship()
+    # all_sprites.add(player)
     # spaceship_sprite.add(player)
     
     screen.fill(BLUE)
-    # player = spaceship(40,20)
-    # all_sprites.add(player)
-    #spaceship.update()
-    all_sprites.update()
+    
     #draw stuff here:
+    invador_sprites.draw(screen)
+    spaceship_sprite.draw(screen)
     # spaceship_sprite.add(player)
     
-    
-    all_sprites.draw(screen)
-    
+
+
+
     lives_count = font.render("Life Count: " + str(lives), True, WHITE)
     endmessage = font.render(end, True, WHITE)
     screen.blit(endmessage, [271,103])
