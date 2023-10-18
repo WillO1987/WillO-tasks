@@ -19,7 +19,8 @@ GREEN    = (   0, 255,   0)
 RED      = ( 255,   0,   0)
 BLUE     = (   0,   0, 255)
 YELLOW = (255 , 255, 0)
-lives = 5
+score = 0
+#lives = 5
 end = ""
 text_font = pygame.font.SysFont(None, 30)
 font = pygame.font.SysFont(None, 30)
@@ -38,14 +39,6 @@ clock = pygame.time.Clock()
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, b_width , b_length):
         super().__init__()
-        # self.x_val2 = x_val2
-        # self.width = b_width
-        # self.height = b_length
-        # self.image = pygame.Surface([self.width, self.height])
-        # self.image.fill(GREEN), 
-        # self.rect = self.image.get_rect()
-        # self.rect.x = initial_x
-        # self.rect.y = 465
         self.image = pygame.Surface((5, 10))
         self.image.fill(GREEN)
         self.rect = self.image.get_rect()
@@ -72,9 +65,9 @@ class spaceship(pygame.sprite.Sprite):
     def update(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
-            self.rect.x -= 4
+            self.rect.x -= 5
         if keys[pygame.K_RIGHT]:
-            self.rect.x += 4
+            self.rect.x += 5
 
         if self.rect.left < 0:
             self.rect.left = 0
@@ -94,13 +87,17 @@ class Invador(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = random.randrange(0,700)
         self.rect.y = 0
-        self.horizontalspeed = random.randrange(-2,-1)
+        #self.horizontalspeed = random.randrange(-2,-1)
+        self.horizontalspeed = -1
 
     def update(self):
         if self.rect.y >= -50 :
             self.rect.y = self.rect.y - self.horizontalspeed
         if self.rect.y > screen_y:
             self.rect.y = -50
+            print("UH OH")
+            #lives = 5
+            #lives = lives - 1
        
 
 
@@ -112,6 +109,7 @@ y_val = 200
 x_offset = 1
 pi= 3.141592652
 counter = 0
+end = ""
 
 
 #create sprite groups
@@ -127,14 +125,6 @@ spaceship_sprite.add(player)
 #set the enemy count
 Invador_Num = enemy_count
 
-# for i in range(0,Invador_Num):
-#     Invador_width = 30
-#     Invador_Length = 15 
-#     #sizeee = random.randrange(2,5)
-#     enemy = Invador(Invador_width, Invador_Length)
-#     invador_sprites.add(enemy)
-#     all_sprites.add(enemy)
-# #next i 
 
  
 # -------- Main Program Loop -----------
@@ -154,6 +144,8 @@ while not done:
         enemy = Invador(Invador_width, Invador_Length)
         invador_sprites.add(enemy)
         all_sprites.add(enemy)
+        #add 1 to the score becuase eneemy killed 
+        score = score + 1
     # --- Game logic should go here
 
     #check for collisions
@@ -174,21 +166,13 @@ while not done:
     #draw stuff here:
     all_sprites.draw(screen)
     spaceship_sprite.draw(screen)
-    # bullet_sprites.draw(screen)
-    # bullet_sprites.draw(screen)
-    # spaceship_sprite.add(player)
     
-
-    
-    # keys = pygame.key.get_pressed()
-    # if keys[pygame.K_SPACE]:
-    #     new_bullet = bullet(20, 10, x_val2)
-    #     bullet_sprites.add(new_bullet)
-   
-    lives_count = font.render("Life Count: " + str(lives), True, WHITE)
+    #messages at the top 
+    realscore = score - 5
+    score_count = font.render("Score Count: " + str(realscore), True, WHITE)
     endmessage = font.render(end, True, WHITE)
     screen.blit(endmessage, [271,103])
-    screen.blit(lives_count, [280,40])
+    screen.blit(score_count, [280,40])
 
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
