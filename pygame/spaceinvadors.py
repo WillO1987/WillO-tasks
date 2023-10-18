@@ -35,24 +35,26 @@ done = False
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
 #classes go here
-class bullet(pygame.sprite.Sprite):
-    def __init__(self, b_width , b_length, initial_x):
+class Bullet(pygame.sprite.Sprite):
+    def __init__(self, b_width , b_length):
         super().__init__()
-        self.x_val2 = x_val2
-        self.width = b_width
-        self.height = b_length
-        self.image = pygame.Surface([self.width, self.height])
-        self.image.fill(GREEN), 
+        # self.x_val2 = x_val2
+        # self.width = b_width
+        # self.height = b_length
+        # self.image = pygame.Surface([self.width, self.height])
+        # self.image.fill(GREEN), 
+        # self.rect = self.image.get_rect()
+        # self.rect.x = initial_x
+        # self.rect.y = 465
+        self.image = pygame.Surface((5, 10))
+        self.image.fill(GREEN)
         self.rect = self.image.get_rect()
-        self.rect.x = initial_x
-        self.rect.y = 465
+        self.rect.centerx = b_width
+        self.rect.centery = b_length
     def update(self) :
-        if self.rect.y > 0:
-            self.rect.y = self.rect.y - 3
-        # keys = pygame.key.get_pressed()
-        # if keys[pygame.K_SPACE]:
-        #     self.rect.y = self.rect.y - 3
+        self.rect.y = self.rect.y - 3
 
+#endclass
 class spaceship(pygame.sprite.Sprite):
     def __init__(self, s_width, s_length, initial_x):
         super().__init__()
@@ -104,34 +106,35 @@ class Invador(pygame.sprite.Sprite):
 
 #global variables
 x_val2 = 350
-
 enemy_count = 5
-all_sprites = pygame.sprite.Group()
-bullet_sprites = pygame.sprite.Group()
-invador_sprites = pygame.sprite.Group()
-spaceship_sprite = pygame.sprite.Group()
-Invador_Num = enemy_count
-for i in range(0,Invador_Num):
-    Invador_width = 30
-    Invador_Length = 15 
-    #sizeee = random.randrange(2,5)
-    enemy = Invador(Invador_width, Invador_Length)
-    invador_sprites.add(enemy)
-    all_sprites.add(enemy)
-#next i 
-for i in range(1):
-    rocket = bullet(20 , 10 , x_val2)
-    player = spaceship(40 , 30 , x_val2)
-    #all_sprites.add(rocket)
-    bullet_sprites.add(rocket)
-    spaceship_sprite.add(player)
-    all_sprites.add(player)
-#endfor
 x_val = 0
 y_val = 200
 x_offset = 1
 pi= 3.141592652
 counter = 0
+
+
+#create sprite groups
+all_sprites = pygame.sprite.Group()
+bullets = pygame.sprite.Group()
+invador_sprites = pygame.sprite.Group()
+spaceship_sprite = pygame.sprite.Group()
+
+# create player spaceship
+player = spaceship(40 , 30 , x_val2)
+spaceship_sprite.add(player)
+
+#set the enemy count
+Invador_Num = enemy_count
+
+# for i in range(0,Invador_Num):
+#     Invador_width = 30
+#     Invador_Length = 15 
+#     #sizeee = random.randrange(2,5)
+#     enemy = Invador(Invador_width, Invador_Length)
+#     invador_sprites.add(enemy)
+#     all_sprites.add(enemy)
+# #next i 
 
  
 # -------- Main Program Loop -----------
@@ -140,34 +143,48 @@ while not done:
     for event in pygame.event.get(): # User did something
         if event.type == pygame.QUIT: # If user clicked close
             done = True # Flag that we are done so we exit this loop
- 
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+            bullet = Bullet(player.rect.centerx, player.rect.top)
+            bullets.add(bullet)
+            all_sprites.add(bullet)
+    
+    if len(invador_sprites) < Invador_Num:
+        Invador_width = 30
+        Invador_Length = 15 
+        enemy = Invador(Invador_width, Invador_Length)
+        invador_sprites.add(enemy)
+        all_sprites.add(enemy)
     # --- Game logic should go here
+
+    #check for collisions
+    hits = pygame.sprite.groupcollide(invador_sprites, bullets, True, True)
+    
+    #update game objects
     all_sprites.update()
     spaceship_sprite.update()
 
-    #invador_sprites.update()
     # --- Drawing code should go here
  
     # First, clear the screen to white. Don't put other drawing commands
     # above this, or they will be erased with this command.
-    # player = spaceship()
-    # all_sprites.add(player)
-    # spaceship_sprite.add(player)
+    
     
     screen.fill(BLUE)
     
     #draw stuff here:
-    invador_sprites.draw(screen)
+    all_sprites.draw(screen)
     spaceship_sprite.draw(screen)
+    # bullet_sprites.draw(screen)
     # bullet_sprites.draw(screen)
     # spaceship_sprite.add(player)
     
 
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_SPACE]:
-        bullet_sprites.update()
-        #bullet_sprites.draw(screen)
-    bullet_sprites.draw(screen)
+    
+    # keys = pygame.key.get_pressed()
+    # if keys[pygame.K_SPACE]:
+    #     new_bullet = bullet(20, 10, x_val2)
+    #     bullet_sprites.add(new_bullet)
+   
     lives_count = font.render("Life Count: " + str(lives), True, WHITE)
     endmessage = font.render(end, True, WHITE)
     screen.blit(endmessage, [271,103])
