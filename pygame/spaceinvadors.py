@@ -7,6 +7,8 @@ import time
 
 
 
+
+
 # Initialize the game engine
 pygame.init()
 
@@ -33,6 +35,24 @@ done = False
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
 #classes go here
+class bullet(pygame.sprite.Sprite):
+    def __init__(self, b_width , b_length, initial_x):
+        super().__init__()
+        self.x_val2 = x_val2
+        self.width = b_width
+        self.height = b_length
+        self.image = pygame.Surface([self.width, self.height])
+        self.image.fill(GREEN), 
+        self.rect = self.image.get_rect()
+        self.rect.x = initial_x
+        self.rect.y = 465
+    def update(self) :
+        if self.rect.y > 0:
+            self.rect.y = self.rect.y - 3
+        # keys = pygame.key.get_pressed()
+        # if keys[pygame.K_SPACE]:
+        #     self.rect.y = self.rect.y - 3
+
 class spaceship(pygame.sprite.Sprite):
     def __init__(self, s_width, s_length, initial_x):
         super().__init__()
@@ -44,6 +64,7 @@ class spaceship(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = initial_x
         self.rect.y = 465
+
     
 
     def update(self):
@@ -86,6 +107,7 @@ x_val2 = 350
 
 enemy_count = 5
 all_sprites = pygame.sprite.Group()
+bullet_sprites = pygame.sprite.Group()
 invador_sprites = pygame.sprite.Group()
 spaceship_sprite = pygame.sprite.Group()
 Invador_Num = enemy_count
@@ -98,7 +120,10 @@ for i in range(0,Invador_Num):
     all_sprites.add(enemy)
 #next i 
 for i in range(1):
+    rocket = bullet(20 , 10 , x_val2)
     player = spaceship(40 , 30 , x_val2)
+    #all_sprites.add(rocket)
+    bullet_sprites.add(rocket)
     spaceship_sprite.add(player)
     all_sprites.add(player)
 #endfor
@@ -119,6 +144,7 @@ while not done:
     # --- Game logic should go here
     all_sprites.update()
     spaceship_sprite.update()
+
     #invador_sprites.update()
     # --- Drawing code should go here
  
@@ -133,11 +159,15 @@ while not done:
     #draw stuff here:
     invador_sprites.draw(screen)
     spaceship_sprite.draw(screen)
+    # bullet_sprites.draw(screen)
     # spaceship_sprite.add(player)
     
 
-
-
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_SPACE]:
+        bullet_sprites.update()
+        #bullet_sprites.draw(screen)
+    bullet_sprites.draw(screen)
     lives_count = font.render("Life Count: " + str(lives), True, WHITE)
     endmessage = font.render(end, True, WHITE)
     screen.blit(endmessage, [271,103])
