@@ -40,6 +40,8 @@ def enqueue(q1 , item): #my_q):
 print(q1)
 enqueue(q1 , 5)
 print(q1)
+enqueue(q1, 6)
+print(q1)
 
 def dequeue(q1):
     global front
