@@ -95,8 +95,11 @@ class Invador(pygame.sprite.Sprite):
             self.rect.y = self.rect.y - self.horizontalspeed
         if self.rect.y > screen_y:
             self.rect.y = -50
-            print("UH OH")
-            #lives = 5
+            pygame.quit()
+            # end = "GAME OVER"
+            # endmessage = font.render(end, True, WHITE)
+            # screen.blit(endmessage, [271,103])
+            # #lives = 5
             #lives = lives - 1
        
 
@@ -146,6 +149,7 @@ while not done:
         all_sprites.add(enemy)
         #add 1 to the score becuase eneemy killed 
         score = score + 1
+        #Invador_Num = Invador_Num + 1
     # --- Game logic should go here
 
     #check for collisions
@@ -170,8 +174,8 @@ while not done:
     #messages at the top 
     realscore = score - 5
     score_count = font.render("Score Count: " + str(realscore), True, WHITE)
-    endmessage = font.render(end, True, WHITE)
-    screen.blit(endmessage, [271,103])
+    # endmessage = font.render(end, True, WHITE)
+    # screen.blit(endmessage, [271,103])
     screen.blit(score_count, [280,40])
 
     # --- Go ahead and update the screen with what we've drawn.

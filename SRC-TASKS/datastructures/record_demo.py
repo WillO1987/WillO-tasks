@@ -10,7 +10,8 @@ class StudentRecord():
         self.registered = False
     #endconstructorfunction
 
-#end class
+#
+# end class
 
 student1 = StudentRecord()
  # refrencing the record 
