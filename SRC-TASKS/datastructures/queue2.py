@@ -70,6 +70,7 @@ for num in range(11,15):
     Queue.enqueue(num, q1)
 #endfor
 print(q1.data)
+print(q1)
 print(q2.data)
 for num in range(101,105):
     Queue.enqueue(num, q2)
