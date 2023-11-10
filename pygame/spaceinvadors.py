@@ -94,7 +94,9 @@ class Invador(pygame.sprite.Sprite):
         if self.rect.y >= -50 :
             self.rect.y = self.rect.y - self.horizontalspeed
         if self.rect.y > screen_y:
+            #core = score - 1
             self.rect.y = -50
+            
             pygame.quit()
             # end = "GAME OVER"
             # endmessage = font.render(end, True, WHITE)
