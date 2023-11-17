@@ -12,7 +12,7 @@ class Node:
         print(self)
 #end node record
 
-myList = [Node("Empty", -1) for _ in range(5)]
+myList = [Node("", -1) for _ in range(5)]
 
 for index in range(0,4):
     myList[index].pointer = index + 1
@@ -20,7 +20,7 @@ for index in range(0,4):
 myList[4].pointer = -1
 
 
-start = -1
+start = 0
 nextfree = 0
 
 def printOrder(Mylinkedlist):
@@ -73,9 +73,10 @@ AddItem("Colin")
 # AddItem("Barry",myList1)
 print( "----------------")
 print(myList)
-
-# printOrder(myList1)
-# AddItem("Derek",myList1)
-# AddItem("Fred",myList1)
-# #outputList(myList)
-# AddItem("Trevor",myList1)
+AddItem("Derek")
+AddItem("Fred")
+#outputList(myList)
+AddItem("Trevor")
+AddItem("Alan")
+print(myList)
+#printOrder(myList)
