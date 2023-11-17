@@ -1,6 +1,6 @@
 class Node:
     def __init__(self, name , pointer):
-        self.data = name
+        self.name = name
         self.pointer = pointer
     #end constructor
 
@@ -12,20 +12,20 @@ class Node:
         print(self)
 #end node record
 
-myList = [Node(" ", -1) for _ in range(50)]
+myList = [Node("Empty", -1) for _ in range(5)]
 
-for index in range(0,49):
+for index in range(0,4):
     myList[index].pointer = index + 1
 #next index
-myList[49].pointer = None
+myList[4].pointer = -1
 
 
-start_pointer = 1
-nextfree = 3
+start = -1
+nextfree = 0
 
 def printOrder(Mylinkedlist):
-    global start_pointer
-    Current_pointer = start_pointer
+    global start
+    Current_pointer = start
     while Current_pointer != -1:
         print(Mylinkedlist[Current_pointer].name)
         Current_pointer = Mylinkedlist[Current_pointer].pointer
@@ -33,15 +33,18 @@ def printOrder(Mylinkedlist):
 #printOrder(linked_list_data)
 
 
-def AddItem(newItem):
+def AddItem(newName):
+    global nextfree
+    global start
     #check if list is full and if so, print error message
-    if nextfree == None:
+    if nextfree == -1:
         print("Error")
     else:
-        newName = myList[nextfree].name
-        if start == None:
+        myList[nextfree].name = newName
+
+        if start == -1:
             temp = myList[nextfree].pointer       #save pointer
-            myList[nextfree].pointer = None
+            myList[nextfree].pointer = -1
             start = nextfree
             nextfree = temp
         else:
@@ -51,18 +54,28 @@ def AddItem(newItem):
                 start = nextfree
             else:   
                 placeFound = False    #general case
-                while myList[p].pointer != None and placeFound == False:
+                while myList[p].pointer != -1 and placeFound == False:
                     #peek ahead
                     if newName >= myList[myList[p].pointer].name:
                         p = myList[p].pointer
                     else:
-                        placefound = True
+                        placeFound = True
                     
                 
                 temp = nextfree
-                nextfree = Node[nextfree].pointer
-                Node[temp].pointer = Node[p].pointer
-                Node[p].pointer = temp
-            
-        
-    
+                nextfree = myList[nextfree].pointer
+                myList[temp].pointer = myList[p].pointer
+                myList[p].pointer = temp
+print(myList)
+# printOrder(myList1)
+AddItem("Colin")
+# AddItem("Albert",myList1)
+# AddItem("Barry",myList1)
+print( "----------------")
+print(myList)
+
+# printOrder(myList1)
+# AddItem("Derek",myList1)
+# AddItem("Fred",myList1)
+# #outputList(myList)
+# AddItem("Trevor",myList1)
