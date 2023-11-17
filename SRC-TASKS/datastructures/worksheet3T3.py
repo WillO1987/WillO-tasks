@@ -12,9 +12,9 @@ class Node:
         print(self)
 #end node record
 
-myList = [None for _ in range(50)]
+myList = [Node(" ", -1) for _ in range(50)]
 
-for index in range(49):
+for index in range(0,49):
     myList[index].pointer = index + 1
 #next index
 myList[49].pointer = None
