@@ -66,6 +66,26 @@ def AddItem(newName):
                 nextfree = myList[nextfree].pointer
                 myList[temp].pointer = myList[p].pointer
                 myList[p].pointer = temp
+xItem = input("Enter item to be removed")
+def removeItem(XItem):
+    global nextfree
+    global start
+    if start == -1:
+        print("list is empty")
+    else:
+        p = start
+        if xItem == myList[start].name:
+            start = myList[start].pointer
+        else:
+            while XItem != myList[myList[p].pointer].name:
+                p = myList[p].pointer
+            #endwhile
+        #endif
+    #endif
+    nextfree = myList[p].pointer
+    myList[p].pointer = myList[nextfree].pointer
+#endfunc
+
 print(myList)
 # printOrder(myList1)
 AddItem("Colin")
@@ -80,3 +100,5 @@ AddItem("Trevor")
 AddItem("Alan")
 print(myList)
 printOrder(myList)
+AddItem("polly")
+print(nextfree)
