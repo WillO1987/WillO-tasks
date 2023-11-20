@@ -97,7 +97,7 @@ class Invador(pygame.sprite.Sprite):
             #core = score - 1
             self.rect.y = -50
             
-            pygame.quit()
+            #pygame.quit()
             # end = "GAME OVER"
             # endmessage = font.render(end, True, WHITE)
             # screen.blit(endmessage, [271,103])
