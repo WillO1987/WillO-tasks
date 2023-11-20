@@ -1,24 +1,20 @@
 class Node:
-    def __init__(self, name , pointer):
+    def __init__(self, name, pointer):
         self.name = name
         self.pointer = pointer
-    #end constructor
 
     def __repr__(self) -> str:
-        return " |Data: "  + self.name + "   Ptr: " + str(self.pointer) + "| "
-    
+        return " |Data: " + self.name + "   Ptr: " + str(self.pointer) + "| "
 
     def orderOutput(self):
         print(self)
-#end node record
 
 myList = [Node("", -1) for _ in range(5)]
 
-for index in range(0,4):
+for index in range(0, 4):
     myList[index].pointer = index + 1
-#next index
-myList[4].pointer = -1
 
+myList[4].pointer = -1
 
 start = 0
 nextfree = 0
@@ -29,44 +25,36 @@ def printOrder(Mylinkedlist):
     while Current_pointer != -1:
         print(Mylinkedlist[Current_pointer].name)
         Current_pointer = Mylinkedlist[Current_pointer].pointer
-    #next current_pointer
-#printOrder(linked_list_data)
-
 
 def AddItem(newName):
     global nextfree
     global start
-    #check if list is full and if so, print error message
     if nextfree == -1:
         print("Error")
     else:
         myList[nextfree].name = newName
 
-        if start == -1:
-            temp = myList[nextfree].pointer       #save pointer
-            myList[nextfree].pointer = -1
+        if start == -1 or newName < myList[start].name:
+            temp = myList[nextfree].pointer
+            myList[nextfree].pointer = start
             start = nextfree
             nextfree = temp
         else:
             p = start
-            if newName < myList[p].name:  
-                start  = myList[nextfree].pointer
-                start = nextfree
-            else:   
-                placeFound = False    #general case
-                while myList[p].pointer != -1 and placeFound == False:
-                    #peek ahead
-                    if newName >= myList[myList[p].pointer].name:
-                        p = myList[p].pointer
-                    else:
-                        placeFound = True
-                    
-                
-                temp = nextfree
-                nextfree = myList[nextfree].pointer
-                myList[temp].pointer = myList[p].pointer
-                myList[p].pointer = temp
-xItem = input("Enter item to be removed")
+            placeFound = False
+            while myList[p].pointer != -1 and not placeFound:
+                if newName >= myList[myList[p].pointer].name:
+                    p = myList[p].pointer
+                else:
+                    placeFound = True
+
+            temp = nextfree
+            nextfree = myList[nextfree].pointer
+            myList[temp].pointer = myList[p].pointer
+            myList[p].pointer = temp
+
+# xItem = input("Enter item to be removed")
+
 def removeItem(XItem):
     global nextfree
     global start
@@ -74,31 +62,28 @@ def removeItem(XItem):
         print("list is empty")
     else:
         p = start
-        if xItem == myList[start].name:
+        if XItem == myList[start].name:
             start = myList[start].pointer
         else:
-            while XItem != myList[myList[p].pointer].name:
+            while myList[p].pointer != -1 and XItem != myList[myList[p].pointer].name:
                 p = myList[p].pointer
-            #endwhile
-        #endif
-    #endif
-    nextfree = myList[p].pointer
-    myList[p].pointer = myList[nextfree].pointer
-#endfunc
+
+            if myList[p].pointer != -1:
+                nextfree = myList[p].pointer
+                myList[p].pointer = myList[nextfree].pointer
+            else:
+                print(f"Item {XItem} not found in the list.")
 
 print(myList)
-# printOrder(myList1)
 AddItem("Colin")
-# AddItem("Albert",myList1)
-# AddItem("Barry",myList1)
-print( "----------------")
+print("----------------")
 print(myList)
 AddItem("Derek")
 AddItem("Fred")
-#outputList(myList)
 AddItem("Trevor")
 AddItem("Alan")
 print(myList)
 printOrder(myList)
-AddItem("polly")
-print(nextfree)
+removeItem("Trevor")
+print(myList)
+printOrder(myList)
