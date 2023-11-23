@@ -62,7 +62,7 @@ class snow(pygame.sprite.Sprite):
 
 #global variables
 snow_list = pygame.sprite.Group()
-number_of_flakes = 600
+number_of_flakes = 6000
 for i in range(0,number_of_flakes):
     sizeee = random.randrange(2,5)
     flake = snow(sizeee,sizeee)
