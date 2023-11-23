@@ -9,6 +9,7 @@ import time
 
 
 
+
 # Initialize the game engine
 pygame.init()
 
@@ -59,27 +60,52 @@ class Pacman(pygame.sprite.Sprite):
         self.rect.y += moveUp
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
-            moveSide = -2
+            moveSide = -1
             moveUp = 0
             #self.rect.x -= 5
         if keys[pygame.K_RIGHT]:
-            moveSide = 2
+            moveSide = 1
             moveUp = 0
             #self.rect.x += 5
         if keys[pygame.K_UP]:
             moveSide = 0
-            moveUp = -2
+            moveUp = -1
            # self.rect.y -= 5
         if keys[pygame.K_DOWN]:
             moveSide = 0
-            moveUp = +2
+            moveUp = 1
             #self.rect.y += 5
     
     def eatItems(self, item):
         if item == ghost:
             score = score + 1
         #if item == coin:
-            
+
+class Block(pygame.sprite.Sprite):
+    def __init__(self ,B_colour , width , height, B_xval, B_yval):
+        super().__init__()   
+        self.width = width
+        self.height = height
+        self.colour = B_colour   
+        self.image = pygame.Surface([self.width, self.height])
+        self.image.fill(self.colour)
+        self.rect = self.image.get_rect()  
+        self.rect.x = B_xval
+        self.rect.y = B_yval
+        
+    def update(self):
+        self = self
+
+
+# class Map(pygame.sprite.Sprite):
+#     def __init__(self):
+#         super().__init__()   
+#         self.width = 700
+#         self.height = 500   
+#         self.map = []
+#         coloumn = self.height / 10
+#         row = self.width / 10
+        
    
 
         
@@ -117,19 +143,40 @@ end = ""
 
 #create sprite groups
 all_sprites = pygame.sprite.Group()
-
+wall_list = pygame.sprite.Group()
 ghost_sprites = pygame.sprite.Group()
 pacman_sprite = pygame.sprite.Group()
 # create player spaceship
-player = Pacman(40 , 30 , x_val , y_val , 3)
+player = Pacman(20 , 20 , x_val , y_val , 3)
 pacman_sprite.add(player)
 all_sprites.add(player)
 #set the enemy count
 Ghost_num = enemy_count
 
 ghost = Ghost(5,5)
+#<---------- MAP MAKE HERE ----------------->
+map =  [[1,1,1,1,1,1,1,1,1,1], 
+        [1,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,1], 
+        [1,1,0,1,1,1,1,1,0,1], 
+        [1,0,0,0,0,0,1,0,0,1],
+        [1,0,1,1,1,0,1,0,0,1],
+        [1,0,1,1,1,0,1,0,0,1], 
+        [1,0,1,1,1,0,1,0,0,1], 
+        [1,0,0,0,0,0,0,0,0,1], 
+        [1,1,1,1,1,1,1,1,1,1]]
+for y in range(0,10):
+    for x in range(0,10):
+        if map[x][y] == 1:
+            my_wall = Block(WHITE ,20 , 20 , x*20 , y*20)
+            wall_list.add(my_wall)
+            all_sprites.add(my_wall)
 
  
+
+
+
+
 # -------- Main Program Loop -----------
 while not done:
     # --- Main event loop
@@ -154,12 +201,13 @@ while not done:
     
     screen.fill(BLUE)
     
+
     #draw stuff here:
     all_sprites.draw(screen)
     pacman_sprite.draw(screen)
     
     #messages at the top 
-    realscore = score - 5
+    realscore = score 
     score_count = font.render("Score Count: " + str(realscore), True, WHITE)
     # endmessage = font.render(end, True, WHITE)
     # screen.blit(endmessage, [271,103])
