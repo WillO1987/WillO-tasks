@@ -145,8 +145,8 @@ class Ghost(pygame.sprite.Sprite):
 #global variables
 x_val2 = 350
 enemy_count = 5
-x_val = 0
-y_val = 200
+x_val = 50
+y_val = 230
 x_offset = 1
 pi= 3.141592652
 counter = 0
@@ -159,7 +159,7 @@ wall_list = pygame.sprite.Group()
 ghost_sprites = pygame.sprite.Group()
 pacman_sprite = pygame.sprite.Group()
 # create player spaceship
-player = Pacman(20 , 20 , x_val , y_val , 3)
+player = Pacman(10 , 10 , x_val , y_val , 3)
 pacman_sprite.add(player)
 all_sprites.add(player)
 #set the enemy count
@@ -167,19 +167,36 @@ Ghost_num = enemy_count
 
 ghost = Ghost(5,5)
 #<---------- MAP MAKE HERE ----------------->
-map =[[1,1,1,1,1,1,1,1,1,1], 
-      [1,0,0,0,0,0,0,0,0,1],
-      [1,0,0,0,0,0,0,0,0,1], 
-      [1,1,0,1,1,1,1,1,0,1], 
-      [1,0,0,0,0,0,1,0,0,1],
-      [1,0,1,1,1,0,1,0,0,1],
-      [1,0,1,1,1,0,1,0,0,1], 
-      [1,0,1,1,1,0,1,0,0,1], 
-      [1,0,0,0,0,0,0,0,0,1], 
-      [1,1,1,1,1,1,1,1,1,1]]
 
-for y in range(0,10):
-    for x in range(0,10):
+map = [
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1],
+    [1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1],
+    [1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1],
+    [1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+    [1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1],
+    [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1],
+    [1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1],
+    [1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1],
+    [1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1],
+    [1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+    [1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1],
+    [1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1],
+    [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1],
+    [1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1],
+    [1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1],
+    [1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+]
+
+# ... (rest of your code remains the same)
+
+
+
+for y in range(0,20):
+    for x in range(0,20):
         if map[x][y] == 1:
             my_wall = Block(WHITE ,20 , 20 , x*20 , y*20)
             wall_list.add(my_wall)
@@ -221,10 +238,10 @@ while not done:
     
     #messages at the top 
     realscore = score 
-    score_count = font.render("Score Count: " + str(realscore), True, WHITE)
+    score_count = font.render("Score Count: " + str(realscore), True, BLACK)
     # endmessage = font.render(end, True, WHITE)
     # screen.blit(endmessage, [271,103])
-    screen.blit(score_count, [280,40])
+    screen.blit(score_count, [200,4])
 
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
