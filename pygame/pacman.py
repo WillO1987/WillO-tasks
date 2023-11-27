@@ -191,9 +191,6 @@ map = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ]
 
-# ... (rest of your code remains the same)
-
-
 
 for y in range(0,20):
     for x in range(0,20):
