@@ -49,7 +49,7 @@ class Pacman(pygame.sprite.Sprite):
         self.width = s_width
         self.height = s_length
         self.image = pygame.Surface([self.width, self.height])
-        self.image.fill(YELLOW), 
+        self.image.fill(GREEN), 
         self.rect = self.image.get_rect()
         self.rect.x = initial_x
         self.rect.y = initial_y
@@ -69,6 +69,10 @@ class Pacman(pygame.sprite.Sprite):
                 self.rect.bottom = wall.rect.top
             elif moveUp < 0:
                 self.rect.top = wall.rect.bottom
+        #check collisions with coins
+        coin_collisions = pygame.sprite.spritecollide(player, coin_sprites, True)
+        for coin in coin_collisions:
+            player.eatItems(coin)
         #movement
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
@@ -89,9 +93,12 @@ class Pacman(pygame.sprite.Sprite):
             #self.rect.y += 5
     
     def eatItems(self, item):
-        if item == ghost:
-            score = score + 1
-        #if item == coin:
+        global score
+        if isinstance(item, Ghost):
+            score += 1
+        elif isinstance(item, Coin):
+            score += 10  # Adjust the score as needed
+            item.kill()   # Remove the coin when Pacman collects it
 
 class Block(pygame.sprite.Sprite):
     def __init__(self ,B_colour , width , height, B_xval, B_yval):
@@ -108,19 +115,19 @@ class Block(pygame.sprite.Sprite):
     def update(self):
         self = self
 
-
-# class Map(pygame.sprite.Sprite):
-#     def __init__(self):
-#         super().__init__()   
-#         self.width = 700
-#         self.height = 500   
-#         self.map = []
-#         coloumn = self.height / 10
-#         row = self.width / 10
+class Coin(pygame.sprite.Sprite):
+    def __init__(self, C_colour, width, height, C_xval, C_yval):
+        super().__init__()
+        self.width = width
+        self.height = height
+        self.colour = C_colour
+        self.image = pygame.Surface([self.width, self.height])
+        self.image.fill(self.colour)
+        self.rect = self.image.get_rect()
+        self.rect.x = C_xval
+        self.rect.y = C_yval
         
    
-
-        
 
         
 
@@ -158,6 +165,8 @@ all_sprites = pygame.sprite.Group()
 wall_list = pygame.sprite.Group()
 ghost_sprites = pygame.sprite.Group()
 pacman_sprite = pygame.sprite.Group()
+coin_sprites = pygame.sprite.Group()
+
 # create player spaceship
 player = Pacman(10 , 10 , x_val , y_val , 3)
 pacman_sprite.add(player)
@@ -199,8 +208,12 @@ for y in range(0,20):
             wall_list.add(my_wall)
             all_sprites.add(my_wall)
 
- 
-
+for y in range(0, 20):
+    for x in range(0, 20):
+        if map[x][y] == 0:  #  0 represents an empty space for coins
+            coin = Coin(YELLOW, 10, 10, x * 20, y * 20)
+            coin_sprites.add(coin)
+            all_sprites.add(coin)
 
 
 
@@ -219,7 +232,7 @@ while not done:
     #update game objects
     all_sprites.update()
     pacman_sprite.update()
-
+    coin_sprites.update()
     # --- Drawing code should go here
  
     # First, clear the screen to white. Don't put other drawing commands
@@ -233,6 +246,8 @@ while not done:
     all_sprites.draw(screen)
     pacman_sprite.draw(screen)
     
+    coin_sprites.draw(screen)
+
     #messages at the top 
     realscore = score 
     score_count = font.render("Score Count: " + str(realscore), True, BLACK)
