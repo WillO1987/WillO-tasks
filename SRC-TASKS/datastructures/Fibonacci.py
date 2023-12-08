@@ -9,7 +9,7 @@ def Fibonacci(n):
     print(fibNumbers)
    
 
-Fibonacci(2)
+Fibonacci(10)
 
 print ("--- %s seconds ---" % (time.time () - start_time))
 
