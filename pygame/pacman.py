@@ -152,8 +152,8 @@ class Ghost(pygame.sprite.Sprite):
 #global variables
 x_val2 = 350
 enemy_count = 5
-x_val = 50
-y_val = 230
+x_val = 60
+y_val = 60
 x_offset = 1
 pi= 3.141592652
 counter = 0
@@ -168,7 +168,7 @@ pacman_sprite = pygame.sprite.Group()
 coin_sprites = pygame.sprite.Group()
 
 # create player spaceship
-player = Pacman(10 , 10 , x_val , y_val , 3)
+player = Pacman(20, 20 , x_val , y_val , 3)
 pacman_sprite.add(player)
 all_sprites.add(player)
 #set the enemy count
@@ -211,7 +211,7 @@ for y in range(0,20):
 for y in range(0, 20):
     for x in range(0, 20):
         if map[x][y] == 0:  #  0 represents an empty space for coins
-            coin = Coin(YELLOW, 10, 10, x * 20, y * 20)
+            coin = Coin(YELLOW, 20, 20, x * 20, y * 20)
             coin_sprites.add(coin)
             all_sprites.add(coin)
 
