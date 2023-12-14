@@ -50,6 +50,6 @@ item = 5
 result = binarySearch(array, item, 0, len(array)-1)
 
 if result != -1:
-    print("item is present at  " + str(result))
+    print("item is at  " + str(result))
 else:
     print("Not found")
