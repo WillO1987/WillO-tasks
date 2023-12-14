@@ -29,7 +29,7 @@ screen_x =700
 screen_y = 500
 size = (screen_x, screen_y)
 screen = pygame.display.set_mode(size)
-pygame.display.set_caption("Wills test:")#
+pygame.display.set_caption("Cookout:")#
 moveSide = 0
 moveUp = 0
 
@@ -227,12 +227,11 @@ while not done:
     # --- Game logic should go here
 
     #check for collisions
-     #hits = pygame.sprite.groupcollide(invador_sprites, bullets, True, True)
+   
     
     #update game objects
     all_sprites.update()
-    pacman_sprite.update()
-    coin_sprites.update()
+   
     # --- Drawing code should go here
  
     # First, clear the screen to white. Don't put other drawing commands
