@@ -1,4 +1,4 @@
-index = -1
+
 
 def linearsearch(array, index, end ,item):
     if array[index] == item:
@@ -14,7 +14,7 @@ def linearsearch(array, index, end ,item):
 
 
 array = [3, 4, 5, 6, 7, 8, 9]
-item = 10
+item = 3
 
 result = linearsearch(array, 0, len(array)-1 , item)
 
