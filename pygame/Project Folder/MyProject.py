@@ -29,7 +29,7 @@ screen_x =700
 screen_y = 500
 size = (screen_x, screen_y)
 screen = pygame.display.set_mode(size)
-pygame.display.set_caption("Cookout:")#
+pygame.display.set_caption("Cooking Game:")#
 moveSide = 0
 moveUp = 0
 
@@ -41,11 +41,10 @@ clock = pygame.time.Clock()
 #classes go here
 
 #endclass
-class Pacman(pygame.sprite.Sprite):
-    def __init__(self, s_width, s_length, initial_x, initial_y, s_health):
+class Chef(pygame.sprite.Sprite):
+    def __init__(self, s_width, s_length, initial_x, initial_y):
         super().__init__()
         self.x_val2 = x_val2
-        self.health = s_health
         self.width = s_width
         self.height = s_length
         self.image = pygame.Surface([self.width, self.height])
@@ -54,10 +53,6 @@ class Pacman(pygame.sprite.Sprite):
         self.rect.x = initial_x
         self.rect.y = initial_y
     def update(self):
-        global moveSide
-        global moveUp
-        self.rect.x += moveSide
-        self.rect.y += moveUp
         # Check for collisions with walls
         wall_collisions = pygame.sprite.spritecollide(self, wall_list, False)
         for wall in wall_collisions:
@@ -76,29 +71,25 @@ class Pacman(pygame.sprite.Sprite):
         #movement
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
-            moveSide = -1
-            moveUp = 0
-            #self.rect.x -= 5
+            
+            self.rect.x -= 2
         if keys[pygame.K_RIGHT]:
-            moveSide = 1
-            moveUp = 0
-            #self.rect.x += 5
+          
+            self.rect.x += 2
+            
         if keys[pygame.K_UP]:
-            moveSide = 0
-            moveUp = -1
-           # self.rect.y -= 5
+            self.rect.y -= 2
         if keys[pygame.K_DOWN]:
-            moveSide = 0
-            moveUp = 1
-            #self.rect.y += 5
+            self.rect.y += 2
     
-    def eatItems(self, item):
-        global score
-        if isinstance(item, Ghost):
-            score += 1
-        elif isinstance(item, Coin):
-            score += 10  # Adjust the score as needed
-            item.kill()   # Remove the coin when Pacman collects it
+    def pickUPitem(self, item):  
+        # global score
+        # if isinstance(item, Ghost):
+        #     score += 1
+        # elif isinstance(item, Coin):
+        #     score += 10  # Adjust the score as needed
+        #     item.kill()   # Remove the coin when Pacman collects i
+        pass
 
 class Block(pygame.sprite.Sprite):
     def __init__(self ,B_colour , width , height, B_xval, B_yval):
@@ -114,46 +105,75 @@ class Block(pygame.sprite.Sprite):
         
     def update(self):
         self = self
-
-class Coin(pygame.sprite.Sprite):
-    def __init__(self, C_colour, width, height, C_xval, C_yval):
-        super().__init__()
-        self.width = width
-        self.height = height
-        self.colour = C_colour
-        self.image = pygame.Surface([self.width, self.height])
-        self.image.fill(self.colour)
-        self.rect = self.image.get_rect()
-        self.rect.x = C_xval
-        self.rect.y = C_yval
-        
-   
+ 
 
         
 
-class Ghost(pygame.sprite.Sprite):
-    def __init__(self, I_width, I_height ):
+class Item(pygame.sprite.Sprite): #Parent Class 
+    def __init__(self, I_width, I_height, I_type, I_colour ):
         super().__init__()
         self.width = I_width
         self.height = I_height
-        self.speed = random.randrange(1,3)
-        self.image = pygame.Surface([self.width, self.height])
-        self.image.fill(RED)
-        self.rect = self.image.get_rect()
-        self.rect.x = random.randrange(0,700)
-        self.rect.y = random.randrange(0,350)
-        #self.horizontalspeed = random.randrange(-2,-1)
-        self.horizontalspeed = -1
+        self.type = I_type
+
+    
+        self.colour = I_colour   
+      
 
     def update(self):
-        self = self
+        pass
 
+class beef(pygame.sprite.Sprite): #daughter class
+    def __init__(self, I_width, I_height, I_xval , I_Yval , I_colour):
+        super().__init__(I_width, I_height, I_colour)
+        self.type = "meat"
+   
+        self.image = pygame.Surface([self.width, self.height])
+        self.image.fill(self.colour)
+        self.rect = self.image.get_rect()  
+        self.rect.x = I_xval 
+        self.rect.y = I_Yval
+
+    def update(self):
+        pass
+
+    def cook(self):
+        pass
+
+class bread(pygame.sprite.Sprite):
+    def __init__(self, I_width, I_height, I_xval , I_Yval , I_colour):
+        super().__init__(I_width, I_height , I_colour)
+        self.type = "meat"
+        
+        self.image = pygame.Surface([self.width, self.height])
+        self.image.fill(self.colour)
+        self.rect = self.image.get_rect()  
+        self.rect.x = I_xval 
+        self.rect.y = I_Yval
+    def update(self):
+        pass
+
+class Cheese(pygame.sprite.Sprite):
+    def __init__(self, I_width, I_height, I_xval , I_Yval , I_colour):
+        super().__init__(I_width, I_height , I_colour)
+        self.type = "Cheese"
+         
+        self.image = pygame.Surface([self.width, self.height])
+        self.image.fill(self.colour)
+        self.rect = self.image.get_rect()  
+        self.rect.x = I_xval 
+        self.rect.y = I_Yval
+
+    def update(self):
+        pass
 
 #global variables
 x_val2 = 350
 enemy_count = 5
 x_val = 60
 y_val = 60
+x_val1 = 70
+y_val1 = 100
 x_offset = 1
 pi= 3.141592652
 counter = 0
@@ -163,57 +183,21 @@ end = ""
 #create sprite groups
 all_sprites = pygame.sprite.Group()
 wall_list = pygame.sprite.Group()
-ghost_sprites = pygame.sprite.Group()
-pacman_sprite = pygame.sprite.Group()
+item_sprite = pygame.sprite.Group()
+player_sprite = pygame.sprite.Group()
 coin_sprites = pygame.sprite.Group()
 
 # create player spaceship
-player = Pacman(10, 10 , x_val , y_val , 3)
-pacman_sprite.add(player)
+player = Chef(10, 10 , x_val , y_val )
+player_sprite.add(player)
 all_sprites.add(player)
-#set the enemy count
-Ghost_num = enemy_count
 
-ghost = Ghost(5,5)
+#create items
+cheese = Cheese(5, 5, x_val1 , y_val1 , YELLOW)
+all_sprites.add(cheese)
+item_sprite.add(cheese)
+
 #<---------- MAP MAKE HERE ----------------->
-
-map = [
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1],
-    [1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1],
-    [1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1],
-    [1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1],
-    [1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1],
-    [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1],
-    [1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1],
-    [1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-    [1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1],
-    [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1],
-    [1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1],
-    [1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1],
-    [1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-]
-
-
-for y in range(0,20):
-    for x in range(0,20):
-        if map[x][y] == 1:
-            my_wall = Block(WHITE ,20 , 20 , x*20 , y*20)
-            wall_list.add(my_wall)
-            all_sprites.add(my_wall)
-
-for y in range(0, 20):
-    for x in range(0, 20):
-        if map[x][y] == 0:  #  0 represents an empty space for coins
-            coin = Coin(YELLOW, 20, 20, x * 20, y * 20)
-            coin_sprites.add(coin)
-            all_sprites.add(coin)
 
 
 
@@ -243,7 +227,7 @@ while not done:
 
     #draw stuff here:
     all_sprites.draw(screen)
-    pacman_sprite.draw(screen)
+    player_sprite.draw(screen)
     
     coin_sprites.draw(screen)
 
@@ -252,7 +236,7 @@ while not done:
     score_count = font.render("Score Count: " + str(realscore), True, BLACK)
     # endmessage = font.render(end, True, WHITE)
     # screen.blit(endmessage, [271,103])
-    screen.blit(score_count, [200,4])
+    screen.blit(score_count, [275,4])
 
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
