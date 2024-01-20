@@ -64,11 +64,11 @@ class Chef(pygame.sprite.Sprite):
                 self.rect.bottom = wall.rect.top
             elif moveUp < 0:
                 self.rect.top = wall.rect.bottom
-        #check collisions with coins
-        coin_collisions = pygame.sprite.spritecollide(player, coin_sprites, True)
-        for coin in coin_collisions:
-            player.eatItems(coin)
-        #movement
+        # #check collisions with coins
+        # coin_collisions = pygame.sprite.spritecollide(player, coin_sprites, True)
+        # for coin in coin_collisions:
+        #     player.eatItems(coin)
+        # #movement
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
             
@@ -111,7 +111,7 @@ class Block(pygame.sprite.Sprite):
 
 class Item(pygame.sprite.Sprite): #Parent Class 
     def __init__(self, I_width, I_height, I_type, I_colour ):
-        super().__init__()
+        
         self.width = I_width
         self.height = I_height
         self.type = I_type
@@ -125,10 +125,11 @@ class Item(pygame.sprite.Sprite): #Parent Class
 
 class beef(pygame.sprite.Sprite): #daughter class
     def __init__(self, I_width, I_height, I_xval , I_Yval , I_colour):
-        super().__init__(I_width, I_height, I_colour)
-        self.type = "meat"
+        pygame.sprite.Sprite.__init__(self)  # Call the parent class's __init__ method
+        Item.__init__(self, I_width, I_height, "meat", I_colour)
+        
    
-        self.image = pygame.Surface([self.width, self.height])
+        self.image = pygame.Surface([self.width, self.height])  
         self.image.fill(self.colour)
         self.rect = self.image.get_rect()  
         self.rect.x = I_xval 
@@ -142,8 +143,9 @@ class beef(pygame.sprite.Sprite): #daughter class
 
 class bread(pygame.sprite.Sprite):
     def __init__(self, I_width, I_height, I_xval , I_Yval , I_colour):
-        super().__init__(I_width, I_height , I_colour)
-        self.type = "meat"
+        pygame.sprite.Sprite.__init__(self)  # Call the parent class's __init__ method
+        Item.__init__(self, I_width, I_height, "bread", I_colour)
+        
         
         self.image = pygame.Surface([self.width, self.height])
         self.image.fill(self.colour)
@@ -155,9 +157,10 @@ class bread(pygame.sprite.Sprite):
 
 class Cheese(pygame.sprite.Sprite):
     def __init__(self, I_width, I_height, I_xval , I_Yval , I_colour):
-        super().__init__(I_width, I_height , I_colour)
-        self.type = "Cheese"
-         
+        pygame.sprite.Sprite.__init__(self)  # Call the parent class's __init__ method
+        Item.__init__(self, I_width, I_height, "Cheese", I_colour)
+        
+    
         self.image = pygame.Surface([self.width, self.height])
         self.image.fill(self.colour)
         self.rect = self.image.get_rect()  
@@ -192,8 +195,7 @@ player = Chef(10, 10 , x_val , y_val )
 player_sprite.add(player)
 all_sprites.add(player)
 
-#create items
-cheese = Cheese(5, 5, x_val1 , y_val1 , YELLOW)
+cheese = Cheese(20, 20, 200, 200, YELLOW)
 all_sprites.add(cheese)
 item_sprite.add(cheese)
 
