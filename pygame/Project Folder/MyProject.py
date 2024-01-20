@@ -42,6 +42,8 @@ clock = pygame.time.Clock()
 
 #endclass
 class Chef(pygame.sprite.Sprite):
+    carry_Item_List = []
+
     def __init__(self, s_width, s_length, initial_x, initial_y):
         super().__init__()
         self.x_val2 = x_val2
@@ -52,7 +54,32 @@ class Chef(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = initial_x
         self.rect.y = initial_y
+        self.diff_x = 0
+        self.diff_y = 0
+
+        
     def update(self):
+         # Calculate diff_x and diff_y based on key input
+        keys = pygame.key.get_pressed()
+        self.diff_x = 0
+        self.diff_y = 0
+        if keys[pygame.K_LEFT]:
+            self.diff_x -= 2
+        if keys[pygame.K_RIGHT]:
+            self.diff_x += 2
+        if keys[pygame.K_UP]:
+            self.diff_y -= 2
+        if keys[pygame.K_DOWN]:
+            self.diff_y += 2
+
+        # Update the positions of the player and carried items
+        self.rect.x += self.diff_x
+        self.rect.y += self.diff_y
+
+        for item in self.carry_Item_List:
+            item.rect.x += self.diff_x
+            item.rect.y += self.diff_y
+        
         # Check for collisions with walls
         wall_collisions = pygame.sprite.spritecollide(self, wall_list, False)
         for wall in wall_collisions:
@@ -69,27 +96,19 @@ class Chef(pygame.sprite.Sprite):
         # for coin in coin_collisions:
         #     player.eatItems(coin)
         # #movement
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
+        # keys = pygame.key.get_pressed()
+        # if keys[pygame.K_LEFT]:
             
-            self.rect.x -= 2
-        if keys[pygame.K_RIGHT]:
+        #     self.rect.x -= 2
+        # if keys[pygame.K_RIGHT]:
           
-            self.rect.x += 2
+        #     self.rect.x += 2
             
-        if keys[pygame.K_UP]:
-            self.rect.y -= 2
-        if keys[pygame.K_DOWN]:
-            self.rect.y += 2
+        # if keys[pygame.K_UP]:
+        #     self.rect.y -= 2
+        # if keys[pygame.K_DOWN]:
+            # self.rect.y += 2
     
-    def pickUPitem(self, item):  
-        # global score
-        # if isinstance(item, Ghost):
-        #     score += 1
-        # elif isinstance(item, Coin):
-        #     score += 10  # Adjust the score as needed
-        #     item.kill()   # Remove the coin when Pacman collects i
-        pass
 
 class Block(pygame.sprite.Sprite):
     def __init__(self ,B_colour , width , height, B_xval, B_yval):
@@ -195,6 +214,7 @@ player = Chef(10, 10 , x_val , y_val )
 player_sprite.add(player)
 all_sprites.add(player)
 
+
 cheese = Cheese(20, 20, 200, 200, YELLOW)
 all_sprites.add(cheese)
 item_sprite.add(cheese)
@@ -209,6 +229,22 @@ while not done:
     for event in pygame.event.get(): # User did something
         if event.type == pygame.QUIT: # If user clicked close
             done = True # Flag that we are done so we exit this loop
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+
+            
+
+               item_hit_list = pygame.sprite.spritecollide(player, item_sprite, False)
+
+            
+
+               player.carry_Item_List = item_hit_list
+
+            if event.key == pygame.K_BACKSPACE:
+
+            
+
+               player.carry_Item_List = []
 
     # --- Game logic should go here
 
@@ -216,6 +252,8 @@ while not done:
    
     
     #update game objects
+    player_diff_x = player.diff_x
+    player_diff_y = player.diff_y
     all_sprites.update()
    
     # --- Drawing code should go here
