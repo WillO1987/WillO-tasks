@@ -218,6 +218,12 @@ all_sprites.add(player)
 cheese = Cheese(20, 20, 200, 200, YELLOW)
 all_sprites.add(cheese)
 item_sprite.add(cheese)
+Beef = beef(20, 20, 200, 300, BLACK)
+all_sprites.add(Beef)
+item_sprite.add(Beef)
+Bread = bread(20,20, 200,450 , WHITE)
+all_sprites.add(Bread)
+item_sprite.add(Bread)
 
 #<---------- MAP MAKE HERE ----------------->
 
